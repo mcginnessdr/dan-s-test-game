@@ -140,13 +140,13 @@ def main():
 
         # if player hit, tell them they lose
         if hit:
-            loser_text = FONT.render("You Lost!", 1, "white")
+            loser_text = FONT.render("You Lose Bitch!", 3, "white")
             # centers text
             WIN.blit(loser_text, (WIDTH/2 - loser_text.get_width()/2, HEIGHT/2 - loser_text.get_height()/2))
             #updates screen
             pygame.display.update()
             pygame.time.delay(4000)
-            break
+            main()
 
         # call draw function
         draw(player, elapsed_time, asteroids)
