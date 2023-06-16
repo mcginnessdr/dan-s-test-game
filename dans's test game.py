@@ -84,7 +84,7 @@ def main():
     while run:
 
         # asteroid dimensions, currently random within range
-        ASTEROID_WIDTH = random.randint(20, 200)
+        ASTEROID_WIDTH = random.randint(20, 100)
         ASTEROID_HEIGHT = ASTEROID_WIDTH
 
         # locks game clock at 60fps, locks asteroid_count to time
