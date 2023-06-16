@@ -25,15 +25,12 @@ FONT = pygame.font.SysFont("timesnewroman", 30)
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 50
 
-# asteroid dimensions, currently random within range
-ASTEROID_WIDTH = random.randint(2, 100)
-ASTEROID_HEIGHT = random.randint(2,100)
-
 # player movement velocity
 PLAYER_VEL = 10
 
 # asteroid movement velocity
 ASTEROID_VEL = 10
+
 
 # !need player gravity!
 
@@ -59,8 +56,6 @@ def draw(player, elapsed_time, asteroids):
     pygame.display.update()
 
 
-
-
 # main function
 def main():
     run = True
@@ -82,8 +77,13 @@ def main():
     asteroids = []
     hit = False
 
+
     # main game loop
     while run:
+
+        # asteroid dimensions, currently random within range
+        ASTEROID_WIDTH = random.randint(20, 200)
+        ASTEROID_HEIGHT = ASTEROID_WIDTH
 
         # locks game clock at 60fps, locks asteroid_count to time
         asteroid_count += clock.tick(60)
@@ -133,7 +133,6 @@ def main():
             if asteroid.y > HEIGHT:
                 asteroids.remove(asteroid)
             # asteroid gets deleted if it hits player
-            # only checks for hit if asteroid is on same y axis
             elif asteroid.colliderect(player):
                 asteroids.remove(asteroid)
                 hit = True
