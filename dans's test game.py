@@ -26,7 +26,7 @@ PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 50
 
 # player movement velocity
-PLAYER_VEL = 10
+PLAYER_VEL = 12
 
 # asteroid movement velocity
 ASTEROID_VEL = 10
@@ -77,6 +77,8 @@ def main():
     asteroids = []
     hit = False
 
+    # gravity strength
+    gravity = 6.5
 
     # main game loop
     while run:
@@ -111,6 +113,11 @@ def main():
                 run = False
                 break
         
+        # gravity acting on player
+        if hit == False:
+            player.y = player.y + gravity         
+            pygame.time.delay(1)
+
         # player movement controls
         keys = pygame.key.get_pressed()
         # when press "a", go left
@@ -143,9 +150,11 @@ def main():
             loser_text = FONT.render("You Lose Bitch!", 3, "white")
             # centers text
             WIN.blit(loser_text, (WIDTH/2 - loser_text.get_width()/2, HEIGHT/2 - loser_text.get_height()/2))
-            #updates screen
+            # updates screen
             pygame.display.update()
+            # pause for effect
             pygame.time.delay(4000)
+            # reloop the game
             main()
 
         # call draw function
