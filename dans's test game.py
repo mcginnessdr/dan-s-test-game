@@ -134,7 +134,7 @@ def main():
                 astroids.remove(astroid)
             # astroid gets deleted if it hits player
             # only checks for hit if astroid is on same y axis
-            elif astroid.y + astroid.height == player.y and astroid.colliderect(player):
+            elif astroid.colliderect(player):
                 astroids.remove(astroid)
                 hit = True
                 break
