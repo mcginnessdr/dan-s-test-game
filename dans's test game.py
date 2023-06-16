@@ -3,6 +3,8 @@ import pygame
 import time
 import random
 
+# initalize the font module
+pygame.font.init()
 
 # create game window
 WIDTH, HEIGHT = 1000, 800
@@ -16,6 +18,9 @@ pygame.display.set_caption("Dan's Test Game")
 # BG = pygame.transform.scale(pygame.image.load("background_image.jpeg"), (WIDTH, HEIGHT))
 BG = pygame.image.load("background_image.jpg")
 
+# set game font
+FONT = pygame.font.SysFont("timesnewroman", 30)
+
 # player dimensions
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 50
@@ -27,10 +32,14 @@ PLAYER_VEL = 10
 
 
 # draw function
-def draw(player):
+def draw(player, elapsed_time):
 
     # draw the background image
     WIN.blit(BG, (0, 0))
+
+    # prints elapsed game time on screen
+    time_text = FONT.render(f"Time: {round(elapsed_time)}s", 1, "white")
+    WIN.blit(time_text, (10, 10))
 
     # draw the player
     pygame.draw.rect(WIN, "red", player)
@@ -39,21 +48,31 @@ def draw(player):
     pygame.display.update()
 
 
+
+
 # main function
 def main():
     run = True
 
-    #creates game clock
+    # creates game clock
     clock = pygame.time.Clock()
+
+    # saves the start time of the game
+    start_time = time.time()
+    elapsed_time = 0
 
     # create player
     player = pygame.Rect(500, HEIGHT - PLAYER_HEIGHT, PLAYER_WIDTH, PLAYER_HEIGHT)
 
 
+    # main game loop
     while run:
 
         #locks game clock at 60fps
         clock.tick(60)
+
+        # sets the game timer to 0:00
+        elapsed_time = time.time() - start_time
 
         # if player presses red "x", game window will close
         for event in pygame.event.get():
@@ -78,9 +97,11 @@ def main():
         
 
         # call draw function
-        draw(player)
+        draw(player, elapsed_time)
 
+    # close game
     pygame.quit()
+
 
 # run the file directly, starts main function
 if __name__ == "__main__":
