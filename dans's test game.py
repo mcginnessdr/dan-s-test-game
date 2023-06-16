@@ -1,4 +1,4 @@
-# import needed addons
+# import needed modules
 import pygame
 import time
 import random
@@ -25,14 +25,21 @@ FONT = pygame.font.SysFont("timesnewroman", 30)
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 50
 
+# astroid dimensions, currently random within range
+ASTROID_WIDTH = random.randint(2, 100)
+ASTROID_HEIGHT = random.randint(2,100)
+
 # player movement velocity
 PLAYER_VEL = 10
+
+# astroid movement velocity
+ASTROID_VEL = 10
 
 # !need player gravity!
 
 
 # draw function
-def draw(player, elapsed_time):
+def draw(player, elapsed_time, astroids):
 
     # draw the background image
     WIN.blit(BG, (0, 0))
@@ -43,6 +50,10 @@ def draw(player, elapsed_time):
 
     # draw the player
     pygame.draw.rect(WIN, "red", player)
+
+    # draw astroids
+    for astroid in astroids:
+        pygame.draw.rect(WIN, "black", astroid)
 
     # update the game screen
     pygame.display.update()
@@ -64,15 +75,35 @@ def main():
     # create player
     player = pygame.Rect(500, HEIGHT - PLAYER_HEIGHT, PLAYER_WIDTH, PLAYER_HEIGHT)
 
+    # starting astroid generation speed
+    astroid_add_increment = 2000
+    astroid_count = 0
+
+    astroids = []
+    hit = False
 
     # main game loop
     while run:
 
-        #locks game clock at 60fps
-        clock.tick(60)
+        # locks game clock at 60fps, locks astroid_count to time
+        astroid_count += clock.tick(60)
 
         # sets the game timer to 0:00
         elapsed_time = time.time() - start_time
+
+        # generates astroids randomly
+        if astroid_count > astroid_add_increment:
+            for _ in range(random.randint(1, 10)):
+                # randomly places astroid on x axis
+                astroid_x = random.randint(0, WIDTH - ASTROID_WIDTH)
+                # spawns astroid above screen
+                astroid = pygame.Rect(astroid_x, -ASTROID_HEIGHT, ASTROID_WIDTH, ASTROID_HEIGHT)
+                astroids.append(astroid)
+
+            # controls how fast astroids spawns
+            # gets faster over time, sets max speed, sets increment speed
+            astroid_add_increment = max(200, astroid_add_increment - 50)
+            astroid_count = 0
 
         # if player presses red "x", game window will close
         for event in pygame.event.get():
@@ -94,10 +125,22 @@ def main():
         # !need make flap function!
         if keys[pygame.K_SPACE]:
             player.y -= PLAYER_VEL
-        
+
+        # move astroids downward
+        for astroid in astroids[:]:
+            astroid.y += ASTROID_VEL
+            # astroids below screen get deleted
+            if astroid.y > HEIGHT:
+                astroids.remove(astroid)
+            # astroid gets deleted if it hits player
+            # only checks for hit if astroid is on same y axis
+            elif astroid.y + astroid.height == player.y and astroid.colliderect(player):
+                astroids.remove(astroid)
+                hit = True
+                break
 
         # call draw function
-        draw(player, elapsed_time)
+        draw(player, elapsed_time, astroids)
 
     # close game
     pygame.quit()
