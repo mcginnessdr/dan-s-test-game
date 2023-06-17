@@ -19,7 +19,7 @@ pygame.display.set_caption("Dan's Test Game")
 BG = pygame.image.load("background_image.jpg")
 
 # set game font
-FONT = pygame.font.SysFont("timesnewroman", 30)
+FONT = pygame.font.SysFont("impact", 50)
 
 # player dimensions
 PLAYER_WIDTH = 50
