@@ -31,9 +31,9 @@ PLAYER_VEL = 12
 # asteroid movement velocity
 ASTEROID_VEL = 10
 
-
-# !need player gravity!
-
+# set gravity values
+FALL_VEL = 0
+GRAVITY = 0.7
 
 # draw function
 def draw(player, elapsed_time, asteroids):
@@ -77,9 +77,8 @@ def main():
     asteroids = []
     hit = False
 
-    # gravity strength
-    gravity = 6.5
-
+    global FALL_VEL
+     
     # main game loop
     while run:
 
@@ -112,11 +111,10 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
                 break
-        
-        # gravity acting on player
-        if hit == False:
-            player.y = player.y + gravity         
-            pygame.time.delay(1)
+
+        # create gravity, act on player
+        FALL_VEL += GRAVITY
+        player.y += FALL_VEL
 
         # player movement controls
         keys = pygame.key.get_pressed()
@@ -128,10 +126,10 @@ def main():
         # blocks player from going off screen to right
         if keys[pygame.K_d] and player.x + PLAYER_VEL + player.width <= WIDTH:
             player.x += PLAYER_VEL
-        # when press"space", go up
-        # !need make flap function!
+        # when press "space", go up
         if keys[pygame.K_SPACE]:
-            player.y -= PLAYER_VEL
+            # flap strength
+            FALL_VEL = -8.5
 
         # move asteroids downward
         for asteroid in asteroids[:]:
@@ -153,7 +151,7 @@ def main():
             # updates screen
             pygame.display.update()
             # pause for effect
-            pygame.time.delay(4000)
+            pygame.time.delay(3000)
             # reloop the game
             main()
 
