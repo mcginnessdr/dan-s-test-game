@@ -75,8 +75,7 @@ def main():
     elapsed_time = 0
 
     # create player
-    player = pygame.Rect(500, HEIGHT - PLAYER_HEIGHT, PLAYER_WIDTH, PLAYER_HEIGHT)
-
+    player = pygame.Rect(WIDTH / 2 - PLAYER_WIDTH / 2, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
     # starting asteroid generation speed
     asteroid_add_increment = 2000
     asteroid_count = 0
