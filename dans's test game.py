@@ -19,7 +19,7 @@ pygame.display.set_caption("Dan's Test Game")
 BG = pygame.image.load("background_image.jpg")
 
 # set game font
-FONT = pygame.font.SysFont("timesnewroman", 30)
+FONT = pygame.font.SysFont("impact", 50)
 
 # player dimensions
 PLAYER_WIDTH = 50
@@ -75,8 +75,7 @@ def main():
     elapsed_time = 0
 
     # create player
-    player = pygame.Rect(500, HEIGHT - PLAYER_HEIGHT, PLAYER_WIDTH, PLAYER_HEIGHT)
-
+    player = pygame.Rect(WIDTH / 2 - PLAYER_WIDTH / 2, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
     # starting asteroid generation speed
     asteroid_add_increment = 2000
     asteroid_count = 0
