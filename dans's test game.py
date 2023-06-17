@@ -55,7 +55,7 @@ def draw(player, elapsed_time, asteroids, player_frame_index):
 
     # draw asteroids with current frame
     for asteroid in asteroids:
-        steroid_image = pygame.transform.scale(ASTEROID_IMAGE, (asteroid.width, asteroid.height))
+        asteroid_image = pygame.transform.scale(ASTEROID_IMAGE, (asteroid.width, asteroid.height))
         WIN.blit(asteroid_image, (asteroid.x, asteroid.y))
 
     # update the game screen
