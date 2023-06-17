@@ -15,7 +15,7 @@ pygame.display.set_caption("Dan's Test Game")
 
 # set the background image
 # if image is not correct size, use this code to fit image to screen:
-# BG = pygame.transform.scale(pygame.image.load("background_image.jpeg"), (WIDTH, HEIGHT))
+###BG = pygame.transform.scale(pygame.image.load("background_image.jpeg"), (WIDTH, HEIGHT))
 BG = pygame.image.load("background_image.jpg")
 
 # set game font
@@ -35,22 +35,28 @@ ASTEROID_VEL = 10
 FALL_VEL = 0
 GRAVITY = 0.7
 
+# load player frames and asteroid image
+PLAYER_FRAMES = [pygame.image.load('player_frame1.png'), pygame.image.load('player_frame2.png')]
+ASTEROID_IMAGE = pygame.image.load('asteroid.png')
+
 # draw function
-def draw(player, elapsed_time, asteroids):
+def draw(player, elapsed_time, asteroids, player_frame_index):
 
     # draw the background image
     WIN.blit(BG, (0, 0))
 
     # prints elapsed game time on screen
-    time_text = FONT.render(f"Time: {round(elapsed_time)}s", 1, "white")
+    time_text = FONT.render(f"Time: {round(elapsed_time)}s", 1, (255, 255, 255))
     WIN.blit(time_text, (10, 10))
 
-    # draw the player
-    pygame.draw.rect(WIN, "red", player)
+    # draw the player with current frame
+    player_image = pygame.transform.scale(PLAYER_FRAMES[player_frame_index], (PLAYER_WIDTH, PLAYER_HEIGHT))
+    WIN.blit(player_image, (player.x, player.y))
 
-    # draw asteroids
+    # draw asteroids with current frame
     for asteroid in asteroids:
-        pygame.draw.rect(WIN, "black", asteroid)
+        steroid_image = pygame.transform.scale(ASTEROID_IMAGE, (asteroid.width, asteroid.height))
+        WIN.blit(asteroid_image, (asteroid.x, asteroid.y))
 
     # update the game screen
     pygame.display.update()
@@ -77,10 +83,20 @@ def main():
     asteroids = []
     hit = False
 
+    # initialize the frame indices
+    player_frame_index = 0
+
+    # brings in global variable
     global FALL_VEL
      
+    # call draw function
+    draw(player, elapsed_time, asteroids, player_frame_index)
+
     # main game loop
     while run:
+
+        # update the frame indices for animations
+        player_frame_index = (player_frame_index + 1) % len(PLAYER_FRAMES)
 
         # asteroid dimensions, currently random within range
         ASTEROID_WIDTH = random.randint(20, 100)
@@ -145,7 +161,7 @@ def main():
 
         # if player hit, tell them they lose
         if hit:
-            loser_text = FONT.render("You Lose Bitch!", 3, "white")
+            loser_text = FONT.render("You Lose Bitch!", 3, (255, 255, 255))
             # centers text
             WIN.blit(loser_text, (WIDTH/2 - loser_text.get_width()/2, HEIGHT/2 - loser_text.get_height()/2))
             # updates screen
@@ -156,7 +172,7 @@ def main():
             main()
 
         # call draw function
-        draw(player, elapsed_time, asteroids)
+        draw(player, elapsed_time, asteroids, player_frame_index)
 
     # close game
     pygame.quit()
@@ -165,4 +181,3 @@ def main():
 # run the file directly, starts main function
 if __name__ == "__main__":
     main()
-
