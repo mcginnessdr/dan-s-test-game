@@ -55,8 +55,9 @@ def draw(player, elapsed_time, asteroids, player_frame_index):
 
     # draw asteroids with current frame
     for asteroid in asteroids:
-        asteroid_image = pygame.transform.scale(ASTEROID_IMAGE, (asteroid.width, asteroid.height))
-        WIN.blit(asteroid_image, (asteroid.x, asteroid.y))
+        rotated_asteroid_image = pygame.transform.rotate(ASTEROID_IMAGE, asteroid[1]) # Rotate the image
+        asteroid_image = pygame.transform.scale(rotated_asteroid_image, (asteroid[0].width, asteroid[0].height))
+        WIN.blit(asteroid_image, (asteroid[0].x, asteroid[0].y))
 
     # update the game screen
     pygame.display.update()
@@ -114,8 +115,10 @@ def main():
                 # randomly places asteroid on x axis
                 asteroid_x = random.randint(0, WIDTH - ASTEROID_WIDTH)
                 # spawns asteroid above screen
-                asteroid = pygame.Rect(asteroid_x, -ASTEROID_HEIGHT, ASTEROID_WIDTH, ASTEROID_HEIGHT)
-                asteroids.append(asteroid)
+                asteroid_rect = pygame.Rect(asteroid_x, -ASTEROID_HEIGHT, ASTEROID_WIDTH, ASTEROID_HEIGHT)
+                rotation_angle = random.uniform(0, 360)  # Initial random rotation
+                rotation_speed = random.uniform(-5, 5)  # Random rotation speed
+                asteroids.append([asteroid_rect, rotation_angle, rotation_speed])  # Store asteroid with rotation angle and speed
 
             # controls how fast asteroids spawns
             # gets faster over time, sets max speed, sets increment speed
@@ -147,14 +150,15 @@ def main():
             # flap strength
             FALL_VEL = -8.5
 
-        # move asteroids downward
+        # move and rotate asteroids downward
         for asteroid in asteroids[:]:
-            asteroid.y += ASTEROID_VEL
+            asteroid[0].y += ASTEROID_VEL
+            asteroid[1] += asteroid[2]  # Add rotation speed to current angle
             # asteroids below screen get deleted
-            if asteroid.y > HEIGHT:
+            if asteroid[0].y > HEIGHT:
                 asteroids.remove(asteroid)
             # asteroid gets deleted if it hits player
-            elif asteroid.colliderect(player):
+            elif asteroid[0].colliderect(player):
                 asteroids.remove(asteroid)
                 hit = True
                 break
