@@ -115,9 +115,12 @@ def main():
                 asteroid_x = random.randint(0, WIDTH - ASTEROID_WIDTH)
                 # spawns asteroid above screen
                 asteroid_rect = pygame.Rect(asteroid_x, -ASTEROID_HEIGHT, ASTEROID_WIDTH, ASTEROID_HEIGHT)
-                rotation_angle = random.uniform(0, 360)  # Initial random rotation
-                rotation_speed = random.uniform(-5, 5)  # Random rotation speed
-                asteroids.append([asteroid_rect, rotation_angle, rotation_speed])  # Store asteroid with rotation angle and speed
+                # initial random rotation
+                rotation_angle = random.uniform(0, 360)
+                # random rotation speed
+                rotation_speed = random.uniform(-5, 5) 
+                # store asteroid with rotation angle and speed 
+                asteroids.append([asteroid_rect, rotation_angle, rotation_speed])  
 
             # controls how fast asteroids spawns
             # gets faster over time, sets max speed, sets increment speed
@@ -152,7 +155,8 @@ def main():
         # move and rotate asteroids downward
         for asteroid in asteroids[:]:
             asteroid[0].y += ASTEROID_VEL
-            asteroid[1] += asteroid[2]  # Add rotation speed to current angle
+            # add rotation speed to current angle
+            asteroid[1] += asteroid[2]
             # asteroids below screen get deleted
             if asteroid[0].y > HEIGHT:
                 asteroids.remove(asteroid)
@@ -164,7 +168,7 @@ def main():
 
         # if player hit, tell them they lose
         if hit:
-            loser_text = FONT.render("You Lose Bitch!", 3, (255, 255, 255))
+            loser_text = FONT.render("You Lose Bitch!", 1, (255, 255, 255))
             # centers text
             WIN.blit(loser_text, (WIDTH/2 - loser_text.get_width()/2, HEIGHT/2 - loser_text.get_height()/2))
             # updates screen
